@@ -202,6 +202,14 @@ function drawScreen(textLines, bgColor = 'white', textColor = 'black') {
     ctx.fillStyle = bgColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = textColor;
+    ctx.strokeStyle = '#000';  // Set the line color
+    ctx.globalAlpha = 0.5;
+    ctx.lineWidth = 3;  // Set the line thickness
+    ctx.beginPath();
+    ctx.moveTo(canvas.width / 2, 0);  // Start at the top middle
+    ctx.lineTo(canvas.width / 2, canvas.height);  // Draw to the bottom middle
+    ctx.stroke();
+    ctx.globalAlpha = 1;
     ctx.font = '30px Arial';
     ctx.textAlign = 'center';
     
@@ -243,31 +251,31 @@ function startBossIntro() {
 
 function drawBossIntro() {
     if (currentLevel === 1) {
-        drawScreen([{ text: 'Hey!' }, { text: 'Bad Raining, Right?' }, { text: 'Oh! Clam Down!' }], 'black', 'white');
+        drawScreen([{ text: 'What’s wrong with this place?' }, { text: 'Something, lurking ahead.' }, { text: 'I must face what lies beneath.' }], 'black', 'white');
     } else if (currentLevel === 2) {
-        drawScreen([{ text: 'Where I Am?' }, { text: 'The Elevator?' }, { text: 'Who Are You?' }], 'black', 'white');
+        drawScreen([{ text: 'It doesn\'t just go up.' }, { text: 'A second demon.' }, { text: 'Waiting for me.' }], 'black', 'white');
     } else if (currentLevel === 3) {
-        drawScreen([{ text: 'Help!' }, { text: 'Take Me Out!' }, { text: 'Let Me Back Home!' }], 'black', 'white');
+        drawScreen([{ text: 'I can’t turn back now?' }, { text: 'Twisted!' }, { text: 'Number Demon!' }], 'black', 'white');
     } else if (currentLevel === 4) {
-        drawScreen([{ text: 'You come far!' }, { text: currentLevel + 'Level welcome.' }, { text: 'BUT NOT YOU!' }], 'black', 'white');
+        drawScreen([{ text: 'Something unnatural' }, { text: 'More sinister.' }, { text: 'I falling into their trap?' }], 'black', 'white');
     } else if (currentLevel === 5) {
-        drawScreen([{ text: 'You come far!' }, { text: currentLevel + 'Level welcome.' }, { text: 'BUT NOT YOU!' }], 'black', 'white');
+        drawScreen([{ text: 'Still same world?' }, { text:'Keep me from leaving?' }, { text: 'But the path darker.' }], 'black', 'white');
     } else if (currentLevel === 6) {
-        drawScreen([{ text: 'You come far!' }, { text: currentLevel + 'Level welcome.' }, { text: 'BUT NOT YOU!' }], 'black', 'white');
+        drawScreen([{ text: 'City!' }, { text: 'Crazy!' }, { text: 'I losing my own?' }], 'black', 'white');
     } else if (currentLevel === 7) {
-        drawScreen([{ text: 'You come far!' }, { text: currentLevel + 'Level welcome.' }, { text: 'BUT NOT YOU!' }], 'black', 'white');
+        drawScreen([{ text: 'Every floor.' }, { text: 'Further from the truth.' }, { text: 'Just, going.' }], 'black', 'white');
     } else if (currentLevel === 8) {
-        drawScreen([{ text: 'You come far!' }, { text: currentLevel + 'Level welcome.' }, { text: 'BUT NOT YOU!' }], 'black', 'white');
+        drawScreen([{ text: 'Train?' }, { text: 'Where they want?' }, { text: 'I\'m losing grip?' }], 'black', 'white');
     } else if (currentLevel === 9) {
-        drawScreen([{ text: 'You come far!' }, { text: currentLevel + 'Level welcome.' }, { text: 'BUT NOT YOU!' }], 'black', 'white');
+        drawScreen([{ text: 'Can I still...' }, { text:'Trust.' }, { text: 'Myself?' }], 'black', 'white');
     } else if (currentLevel === 10) {
-        drawScreen([{ text: 'You come far!' }, { text: currentLevel + 'Level welcome.' }, { text: 'BUT NOT YOU!' }], 'black', 'white');
+        drawScreen([{ text: 'This is wrong...' }, { text: 'Toying with me.' }, { text: 'I was stopping them.' }], 'black', 'white');
     } else if (currentLevel === 11) {
-        drawScreen([{ text: 'You come far!' }, { text: currentLevel + 'Level welcome.' }, { text: 'BUT NOT YOU!' }], 'black', 'white');
+        drawScreen([{ text: 'Darkness...' }, { text: 'Peace...' }, { text: 'How I got here?' }], 'black', 'white');
     } else if (currentLevel === 12) {
-        drawScreen([{ text: 'You come far!' }, { text: currentLevel + 'Level welcome.' }, { text: 'BUT NOT YOU!' }], 'black', 'white');
+        drawScreen([{ text: 'Lift won’t stop.' }, { text: 'Broken, real...' }, { text: 'Into pieces.' }], 'black', 'white');
     } else if (currentLevel === 13) {
-        drawScreen([{ text: 'You come far!' }, { text: currentLevel + 'Level welcome.' }, { text: 'BUT NOT YOU!' }], 'black', 'white');
+        drawScreen([{ text: 'Final demon!' }, { text: 'What...' }, { text: 'A Beautiful world!' }], 'black', 'white');
     }                              
 }
 
@@ -305,8 +313,8 @@ function spawnBoss(level) {
         y: 50,
         width: 150,
         height: 150,
-        maxHealth: 5,// + (level - 1) * 10,  // Base health increases with level
-        health: 5,// + (level - 1) * 10, // The current health starts at the max value
+        maxHealth: 50 + (level - 1) * 10,  // Base health increases with level
+        health: 50 + (level - 1) * 10, // The current health starts at the max value
         speed: 1,// Increase speed slightly each level
     };
     bossActive = true;

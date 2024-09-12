@@ -95,3 +95,15 @@ canvas {
     z-index: 1; /* Keep the game above the rain */
 }
 
+#gameTitle {
+    position: absolute;
+    top: -15%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 36px;
+    color: #ff0000; /* You can change the color */
+    background-color: #000; /* You can change the background */
+    z-index: 100; /* Make sure it's above everything */
+    padding: 10px;
+}

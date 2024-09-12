@@ -305,8 +305,8 @@ function spawnBoss(level) {
         y: 50,
         width: 150,
         height: 150,
-        maxHealth: 5 + (level - 1) * 10,  // Base health increases with level
-        health: 5 + (level - 1) * 10, // The current health starts at the max value
+        maxHealth: 5,// + (level - 1) * 10,  // Base health increases with level
+        health: 5,// + (level - 1) * 10, // The current health starts at the max value
         speed: 1,// Increase speed slightly each level
     };
     bossActive = true;
@@ -754,24 +754,22 @@ function animateBackground(t, level) {
         c.width|=0
         for(i=8;i--;)l(600,-2e3,i*404,h=1000);for(i=40;i--;)l(0,y=3**((t+i/3)%9%h),2e3,y) 
     } else if (level === 5) {
-        for(s=k=38;k--;s/=.97)for(i=50;i--;)for(j=28;j--;30-k<(i+t^j)**3%33&&x.fillRect(400+(j-14)*s,600+(i-22-t%1)*s,s,s))x.fillStyle=R(v=90-(k*2),v*Math.sin(t*.2),v*Math.cos(t*.01))
-    } else if (level === 6) {
-        x.shadowColor=`hsl(${t*400},99%,50%)`
-        x.shadowBlur=30
-        for(s=k=38;k--;s/=.97)for(i=50;i--;)for(j=28;j--;30-k<(i+t^j)**3%33&&x.fillRect(400+(j-14)*s,600+(i-22-t%1)*s,s,s))x.fillStyle=R(v=90-(k*2),v*Math.sin(t*.2),v*Math.cos(t*.01))
-    } else if (level === 7) {
+        for(s=k=46;k--;s/=.98)for(i=32;i--;)for(j=18;j--;32-k<(i+t^j)**3%40&&x.fillRect(600+(j-9)*s,400+(i-16-t%1)*s,s,s))x.fillStyle=R(v=k*9,v,v)
+        } else if (level === 6) {
+        // x.shadowColor=`hsl(${t*2},50%,50%)`
+        // x.shadowBlur=1
+        for(s=k=38;k--;s/=.97)for(i=23;i--;)for(j=14;j--;30-k<(i+t^j)**3%33&&x.fillRect(400+(j-14)*s,600+(i-22-t%1)*s,s,s))x.fillStyle=R(v=90-(k*2),v*Math.sin(t*.2),v*Math.cos(t*.01));
+        } else if (level === 7) {
         x.shadowBlur=0
         for(s=k=29;k--;s/=.81)for(j=25;i=--j>>2;e%5<i&&j-18&&x.fillRect(300+j%4*s-s/.4-k*9,400+i*s-4.8*s,s,s))e=j^k/8+t*6,x.fillStyle=R(v=e%7*k,v,v)
     } else if (level === 8) {
         for(s=i=w=c.width|=0;i--;s*=.98)j=i-t*30|0,x.fillRect(200-(j%9?j%2?-.5:.5:.6)*s+(w-i)*S(j/199),200+s,j%9?s/9+9:s*1.3,s/9+2)
     } else if (level === 9) {
-        x.shadowColor=`hsl(${t*400},99%,50%)`
-        x.shadowBlur=30
         c.width|=0;for(let i=0;i<14;i++){x.font='20px monospace';x.fillStyle=R(255*S(T(t)),0,0);x.fillText('13!',0,(i*99+t*333)%600);x.fillText('13!',320,(i*99+t*333)%600)}
     } else if (level === 10) {
         x.shadowColor=`hsl(${t*400},99%,50%)`
         x.shadowBlur=30
-        for(s=k=29;k--;s/=.81)for(j=25;i=--j>>2;e%5<i&&j-18&&x.fillRect(300+j%4*s-s/.4-k*9,400+i*s-4.8*s,s,s))e=j^k/8+t*6,x.fillStyle=R(v=e%7*k,v,v)
+        for(s=k=29;k--;s/=.81)for(j=25;i=--j>>2;e%5<i&&j-18&&x.fillRect(300+j%4*s-s/.4-k*9,400+i*s-4.8*s,s,s))e=j^k/8+t*6
     } else if (level === 11) {
         x.shadowBlur=0
         x.fillStyle = 'black';
@@ -789,15 +787,15 @@ function gameLoop() {
 
     now = Date.now();
     delta = now - then;
-    time = frame / 60;
+    time = frame / 30;
 
-    if (time * 60 | 0 == frame - 1) {
+    if (time * 30 | 0 == frame - 1) {
       time += 0.000001;
     }
 
     frame++;
 
-    if (delta > interval) {
+    // if (delta > interval) {
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         animateBackground(time, currentLevel);
@@ -837,8 +835,8 @@ function gameLoop() {
             resetGame();
             // playing = false;
         }
-        then = now - (delta % interval);
-    }
+    //     then = now - (delta % interval);
+    // }
 
     if (gameState !== 'gameOver') {
         animationFrameId = requestAnimationFrame(gameLoop);

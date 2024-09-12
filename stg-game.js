@@ -104,6 +104,7 @@ var interval = 1000/fps;
 var delta;
 var time = 0;
 var frame = 0;
+var score = 0;
 
 // Player object
 const player = {
@@ -290,7 +291,7 @@ function drawBoss() {
             boss.speed = -boss.speed;
         }
 
-        if (frame % 5 === 0) {
+        if (frame % 10 === 0) {
             shootBossBullets(boss);
         }
     }
@@ -354,6 +355,7 @@ function shootBossBullets(boss) {
         generateBulletsPattern(boss, 3, 16, trainPattern, 0);
     } else if (currentLevel === 9) {
         generateBulletsPattern(boss, 8, 3, logarithmicSpiralPattern, Math.PI / 180);
+        generateBulletsPattern(boss, 3, 8, decircularPattern, Math.PI / 180);
     } else if (currentLevel === 10) {
         generateBulletsPattern(boss, 3, 16, spirographPattern, Math.PI / 120);
     } else if (currentLevel === 11) {
@@ -371,8 +373,8 @@ function generateBulletsPattern(boss, bulletSpeed, bulletCount, patternFunction,
         enemyBullets.push({
             x: boss.x + boss.width / 2,
             y: boss.y + boss.height / 2,
-            width: 5,
-            height: 5,
+            width: 15,
+            height: 15,
             dx: (dx + 0.01) * bulletSpeed,
             dy: (dy + 0.01) * bulletSpeed
         });
@@ -383,7 +385,7 @@ function generateBulletsPattern(boss, bulletSpeed, bulletCount, patternFunction,
 
 // Function to draw enemy bullets
 function drawEnemyBullets() {
-    if (currentLevel === 13 || currentLevel === 6) {
+    if (currentLevel === 13 || currentLevel === 6 || currentLevel === 10) {
         ctx.fillStyle = 'black';
     } else {ctx.fillStyle = 'yellow';}
     for (let index = enemyBullets.length - 1; index >= 0; index--) {
@@ -395,7 +397,6 @@ function drawEnemyBullets() {
 
         // Draw the bullet at the updated position
         ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
-        // ctx.fillText('1 3', bullet.x, bullet.y, bullet.width, bullet.height);
 
         // Remove bullets that go off screen
         if (
@@ -497,19 +498,13 @@ function spirographPattern(i, bulletCount, boss, player) {
 }//level 10: generateBulletsPattern(boss, 3, 16, spirographPattern, Math.PI / 120);
 
 function focusedPattern(i, bulletCount, boss, player) {
-    const trainTracks = 3;
-    const trackSpacing = 20;
-    const speed = 3;
-
-    const trackPosition = i % trainTracks;
-    const xOffset = (trackPosition - (trainTracks / 2)) * trackSpacing;
-    const curveOffset = Math.sin(frame * 0.02) * 30; // Add a slight curve
-
+    const dx = player.x - boss.x;
+    const dy = player.y - boss.y;
+    const magnitude = Math.sqrt(dx * dx + dy * dy);
     return {
-        dx: xOffset + curveOffset, // Horizontal offset with slight curve
-        dy: speed
+        dx: (dx / magnitude),
+        dy: (dy / magnitude)
     };
-    
 }// combine generateBulletsPattern(boss, 3, 1, focusedPattern, 0);
 
 function trainPattern(i, bulletCount, boss, player) {
@@ -558,6 +553,7 @@ function checkCollisions() {
                 bullet.y + bullet.height > boss.y
             ) {
                 boss.health--;
+                score += 1;
                 player.bullets.splice(bulletIndex, 1);
                 zzfx(...[,,129,.01,,.15,,,,,,,,5]);
                 
@@ -572,6 +568,10 @@ function checkCollisions() {
                     bossActive = false;
                     zzfx(...[,,172,.8,,.8,1,.76,7.7,3.73,-482,.08,.15,,.14]);
                     advanceLevel();
+                }
+                if (score % 130 === 0) {//every 130 score, player get 1 life
+                    player.lives += 1;
+                    zzfx(...[,,20,.04,,.6,,1.31,,,-990,.06,.17,,,.04,.07]);
                 }
             }
         }
@@ -596,7 +596,7 @@ function checkCollisions() {
 
             setTimeout(() => {
                 godtime = false;
-            }, 1000);
+            }, 3000);
             godtime = true;
         }
     });
@@ -605,6 +605,7 @@ function checkCollisions() {
 function updateHUD() {
     document.getElementById('lives').textContent = `Lives: ${player.lives}`;
     document.getElementById('level').textContent = `Level: ${currentLevel}`; // Update level display
+    document.getElementById('score').textContent = `Score: ${score}`; // Update score display
 }
 
 // Function to advance to the next level
@@ -621,6 +622,8 @@ function advanceLevel() {
 
 // Function to reset the game
 function resetGame() {
+    //clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     gameState = 'gameOver';  // Set game state to 'gameOver'
     // initializeGame();  // Reset game elements
     drawScreen([

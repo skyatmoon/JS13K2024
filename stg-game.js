@@ -344,7 +344,7 @@ function shootBossBullets(boss) {
     } else if (currentLevel === 3) {
         generateBulletsPattern(boss, 2, 8, circularPattern, Math.PI / 180);
     } else if (currentLevel === 4) {
-        generateBulletsPattern(boss, 2, 8, circularPattern, Math.PI / 27); generateBulletsPattern(boss, 1, 8, subwayPattern, Math.PI / 60);
+        generateBulletsPattern(boss, 8, 3, logarithmicSpiralPattern, Math.PI / 180);generateBulletsPattern(boss, 3, 8, decircularPattern, Math.PI / 180);
     } else if (currentLevel === 5) {
         generateBulletsPattern(boss, 2, 6, decircularPattern, Math.PI / 180); generateBulletsPattern(boss, 2, 6, circularPattern, Math.PI / 180);
     } else if (currentLevel === 6) {
@@ -354,8 +354,7 @@ function shootBossBullets(boss) {
     } else if (currentLevel === 8) {
         generateBulletsPattern(boss, 3, 16, trainPattern, 0);
     } else if (currentLevel === 9) {
-        generateBulletsPattern(boss, 8, 3, logarithmicSpiralPattern, Math.PI / 180);
-        generateBulletsPattern(boss, 3, 8, decircularPattern, Math.PI / 180);
+        generateBulletsPattern(boss, 2, 8, circularPattern, Math.PI / 27); generateBulletsPattern(boss, 1, 8, subwayPattern, Math.PI / 60);
     } else if (currentLevel === 10) {
         generateBulletsPattern(boss, 3, 16, spirographPattern, Math.PI / 120);
     } else if (currentLevel === 11) {
@@ -616,6 +615,7 @@ function advanceLevel() {
         spawnBoss(currentLevel); // Spawn a new boss for the next level
     } else {
         gameState = 'gameOver';
+        initializeGame(); // Reset the game
         drawScreen([{ text: 'You Win!' }, { text: 'Thanks for Playing!' }, { text: 'Press Enter to Restart' }]);
     }
 }
@@ -624,6 +624,7 @@ function advanceLevel() {
 function resetGame() {
     //clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    initializeGame();
     gameState = 'gameOver';  // Set game state to 'gameOver'
     // initializeGame();  // Reset game elements
     drawScreen([
@@ -636,6 +637,7 @@ function resetGame() {
 // Function to initialize the game
 function initializeGame(resetLevel = false) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.shadowBlur=0;
 
     // Reset player position and stats
     player.x = canvas.width / 2 - player.width / 2;

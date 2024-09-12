@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple STG Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="instructions">
+            <h2>How to Play</h2>
+            <p>Use the arrow keys to move:</p>
+            <ul>
+                <li><strong>⬅:</strong> Move Left</li>
+                <li><strong>➡:</strong> Move Right</li>
+                <li><strong>⬆:</strong> Move Up</li>
+                <li><strong>⬇:</strong> Move Down</li>
+                <li><strong>Shift:</strong> Move Slow</li>
+            </ul>
+        </div>
+        <canvas id="gameCanvas" width="400" height="600"></canvas>
+        <div class="hud">
+            <h2>Game Info</h2>
+            <p id="lives">Lives: 3</p>
+            <p id="points">Points: 0</p>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.34/Tone.min.js"></script>
+    <script src="stg-game.js"></script>
+</body>
+</html>

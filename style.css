@@ -1,0 +1,51 @@
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #333;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically on small screens */
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px; /* Set a max-width for large screens */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.instructions, .hud {
+    width: 100%;
+    max-width: 300px; /* Set a maximum width for text sections */
+    margin: 10px;
+    box-sizing: border-box;
+}
+
+canvas {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border: 10px solid #ff0;
+    background-color: #000;
+}
+
+@media (min-width: 768px) {
+    .container {
+        flex-direction: row; /* Arrange elements horizontally on larger screens */
+        justify-content: space-around;
+    }
+}
+
+.hud {
+    width: 100%;
+    max-width: 300px; /* Set a maximum width for text sections */
+    margin: 10px;
+    box-sizing: border-box;
+}

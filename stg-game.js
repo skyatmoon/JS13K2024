@@ -304,8 +304,8 @@ function spawnBoss(level) {
         y: 50,
         width: 150,
         height: 150,
-        maxHealth: 50 + (level - 1) * 10,  // Base health increases with level
-        health: 50 + (level - 1) * 10, // The current health starts at the max value
+        maxHealth: 5 + (level - 1) * 10,  // Base health increases with level
+        health: 5 + (level - 1) * 10, // The current health starts at the max value
         speed: 1,// Increase speed slightly each level
     };
     bossActive = true;
@@ -336,9 +336,33 @@ function drawBossHealthBar() {
 let angleOffset = 0;
 // Function to shoot boss bullets
 function shootBossBullets(boss) {
-    
-    generateBulletsPattern(boss, 3, 12, logarithmicSpiralPattern, Math.PI / 60);
-    
+    if (currentLevel === 1) {
+        generateBulletsPattern(boss, 3, 1, focusedPattern, 0);
+    } else if (currentLevel === 2) {
+        generateBulletsPattern(boss, 2, 8, circularPattern, Math.PI / 27);
+    } else if (currentLevel === 3) {
+        generateBulletsPattern(boss, 2, 8, circularPattern, Math.PI / 180);
+    } else if (currentLevel === 4) {
+        generateBulletsPattern(boss, 2, 8, circularPattern, Math.PI / 27); generateBulletsPattern(boss, 1, 8, subwayPattern, Math.PI / 60);
+    } else if (currentLevel === 5) {
+        generateBulletsPattern(boss, 2, 6, decircularPattern, Math.PI / 180); generateBulletsPattern(boss, 2, 6, circularPattern, Math.PI / 180);
+    } else if (currentLevel === 6) {
+        generateBulletsPattern(boss, 1, 12, butterflyCurvePattern, Math.PI / 90);
+    } else if (currentLevel === 7) {
+        generateBulletsPattern(boss, 3, 16, subwayPattern, Math.PI / 120);
+    } else if (currentLevel === 8) {
+        generateBulletsPattern(boss, 3, 16, trainPattern, 0);
+    } else if (currentLevel === 9) {
+        generateBulletsPattern(boss, 8, 3, logarithmicSpiralPattern, Math.PI / 180);
+    } else if (currentLevel === 10) {
+        generateBulletsPattern(boss, 3, 16, spirographPattern, Math.PI / 120);
+    } else if (currentLevel === 11) {
+        generateBulletsPattern(boss, 3, 12, logarithmicSpiralPattern, Math.PI / 60);
+    } else if (currentLevel === 12) {
+        generateBulletsPattern(boss, 1, 16, trochoidFlowerPattern2, Math.PI / 72);
+    } else if (currentLevel === 13) {
+        generateBulletsPattern(boss, 1, 32, subwayPattern, Math.PI / 60);
+    }
 }
 
 function generateBulletsPattern(boss, bulletSpeed, bulletCount, patternFunction, anglechange) {
@@ -359,7 +383,7 @@ function generateBulletsPattern(boss, bulletSpeed, bulletCount, patternFunction,
 
 // Function to draw enemy bullets
 function drawEnemyBullets() {
-    if (currentLevel === 13) {
+    if (currentLevel === 13 || currentLevel === 6) {
         ctx.fillStyle = 'black';
     } else {ctx.fillStyle = 'yellow';}
     for (let index = enemyBullets.length - 1; index >= 0; index--) {
@@ -456,7 +480,7 @@ function logarithmicSpiralPattern(i, bulletCount, boss, player) {
         dx: r * Math.cos(direction*angle),
         dy: r * Math.sin(direction*angle)
     };
-}
+}//level 11:generateBulletsPattern(boss, 3, 12, logarithmicSpiralPattern, Math.PI / 60);
 
 function spirographPattern(i, bulletCount, boss, player) {
     boss.speed = 0;
@@ -470,8 +494,30 @@ function spirographPattern(i, bulletCount, boss, player) {
         dx: x / R,
         dy: y / R
     };
-}//generateBulletsPattern(boss, 3, 16, spirographPattern, Math.PI / 120);
+}//level 10: generateBulletsPattern(boss, 3, 16, spirographPattern, Math.PI / 120);
 
+function focusedPattern(i, bulletCount, boss, player) {
+    const trainTracks = 3;
+    const trackSpacing = 20;
+    const speed = 3;
+
+    const trackPosition = i % trainTracks;
+    const xOffset = (trackPosition - (trainTracks / 2)) * trackSpacing;
+    const curveOffset = Math.sin(frame * 0.02) * 30; // Add a slight curve
+
+    return {
+        dx: xOffset + curveOffset, // Horizontal offset with slight curve
+        dy: speed
+    };
+    
+}// combine generateBulletsPattern(boss, 3, 1, focusedPattern, 0);
+
+function trainPattern(i, bulletCount, boss, player) {
+    return {
+        dx: Math.sin(i / bulletCount * Math.PI * 2), // Creates a wave along the x-axis
+        dy: 1
+    };
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////
 function drawExplosions() {

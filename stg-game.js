@@ -337,7 +337,7 @@ let angleOffset = 0;
 // Function to shoot boss bullets
 function shootBossBullets(boss) {
     
-    generateBulletsPattern(boss, 1, 16, butterflyCurvePattern, Math.PI / 90);
+    generateBulletsPattern(boss, 3, 12, logarithmicSpiralPattern, Math.PI / 60);
     
 }
 
@@ -398,16 +398,6 @@ function circularPattern(i, bulletCount, boss, player) {
     //level 1 boss pattern, boss speed = 0, generateBulletsPattern(boss, 2, 8, circularPattern, Math.PI / 27);
 }
 
-function lissajousCurvePattern(i, bulletCount, boss, player) {
-    const a = 3; // Frequency along the x-axis
-    const b = 2; // Frequency along the y-axis
-    const angle = (Math.PI * 2 / bulletCount) * i + angleOffset;
-    return {
-        dx: Math.sin(a * angle),
-        dy: Math.sin(b * angle)
-    };
-}
-
 function butterflyCurvePattern(i, bulletCount, boss, player) {
     boss.speed = 0;
     const angle = (Math.PI * 2 / bulletCount) * i + angleOffset;
@@ -415,20 +405,7 @@ function butterflyCurvePattern(i, bulletCount, boss, player) {
     return {
         dx: r * Math.cos(angle),
         dy: r * Math.sin(angle)
-    };
-}
-
-function hypotrochoidPattern(i, bulletCount, boss, player) {
-    const R = 6; // Radius of the larger circle
-    const r = 2; // Radius of the smaller circle
-    const d = 4; // Distance of the point from the smaller circle
-    const angle = (Math.PI * 2 / bulletCount) * i + angleOffset;
-    const x = (R - r) * Math.cos(angle) + d * Math.cos(((R - r) / r) * angle);
-    const y = (R - r) * Math.sin(angle) - d * Math.sin(((R - r) / r) * angle);
-    return {
-        dx: x / R,
-        dy: y / R
-    };
+    };//level 6: generateBulletsPattern(boss, 1, 12, butterflyCurvePattern, Math.PI / 90);
 }
 
 function decircularPattern(i, bulletCount, boss, player) {
@@ -451,7 +428,6 @@ function subwayPattern(i, bulletCount, boss, player) {
 }
 
 function trochoidFlowerPattern(i, bulletCount, boss, player) {
-    // boss.speed = 0;
     const k = 4; // Controls the number of petals
     const angle = (Math.PI * 2 / bulletCount) * i + angleOffset;
     return {
@@ -461,7 +437,6 @@ function trochoidFlowerPattern(i, bulletCount, boss, player) {
 }//level 5 generateBulletsPattern(boss, 3, 8, trochoidFlowerPattern, Math.PI / 60); 
 
 function trochoidFlowerPattern2(i, bulletCount, boss, player) {
-    // boss.speed = 0;
     const k = 2; // Controls the number of petals
     const angle = (Math.PI * 2 / bulletCount) * i + angleOffset;
     return {
@@ -469,6 +444,33 @@ function trochoidFlowerPattern2(i, bulletCount, boss, player) {
         dy: Math.sin(k * angle) * Math.sin(angle)
     };
 }//level 12 generateBulletsPattern(boss, 1, 16, trochoidFlowerPattern2, Math.PI / 72);
+
+function logarithmicSpiralPattern(i, bulletCount, boss, player) {
+    boss.speed = 0;
+    const a = 0.1; // Controls the spiral’s tightness
+    const b = 0.2; // Controls the rate of expansion
+    const angle = (Math.PI * 2 / bulletCount) * i + angleOffset;
+    const r = a * Math.exp(b); // Logarithmic spiral formula
+    const direction = Math.sin(frame / 100) >= 0 ? 1 : -1;
+    return {
+        dx: r * Math.cos(direction*angle),
+        dy: r * Math.sin(direction*angle)
+    };
+}
+
+function spirographPattern(i, bulletCount, boss, player) {
+    boss.speed = 0;
+    const R = 5; // Radius of the fixed circle
+    const r = 2; // Radius of the moving circle
+    const p = 1; // Distance of the point from the center of the moving circle
+    const angle = (Math.PI * 2 / bulletCount) * i + angleOffset;
+    const x = (R - r) * Math.cos(angle) + p * Math.cos(((R - r) / r) * angle);
+    const y = (R - r) * Math.sin(angle) - p * Math.sin(((R - r) / r) * angle);
+    return {
+        dx: x / R,
+        dy: y / R
+    };
+}//generateBulletsPattern(boss, 3, 16, spirographPattern, Math.PI / 120);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////

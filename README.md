@@ -1,6 +1,7 @@
 # JS13K2024
 My Js13k competation 2024, STG game.
-
+![QQ20240913-001923 (1)](https://github.com/user-attachments/assets/b97e5645-b96f-4f8f-8823-f71a38d6c338)
+Idea comes from elevator, but each level design to a new crazy world.
 # The Demons 13 Floors
 The sound of *Pathetique, Op. 13* echoes in the air, endlessly weaving through joy, sorrow, and chaos.  
 

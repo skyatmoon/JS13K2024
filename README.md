@@ -23,9 +23,17 @@ Dodge enemy bullets and defeat them. Do not let them hit your heart. Defeat all 
 - Shift: Move Slow
 - Escape: Pause The Game
 
+
 ## Tips
 - *Shift* is very useful, moving slow and show the **Red Point** which you only need to focus.
 - Each time you hit bosses, will get 1 score, every **130 score** will get a new life point.
 - Each time you loss life point, you will in god-time 3s, moving wherever you want.
 
 ### The game looks hard, but it is easy. Welcome, and, Have fun!
+
+## Thanks Resources
+Music Edited from Pathetique, Op. 13, 13! Tool is Mini Orchestra. Music is so hard to edit for me.
+Sounds effect uing ZzFx.
+Dynamic background are learned and changed from Dweets, they are all functions out of my imaging.
+Sprites drawing by myself using Mini Pixelart Editor, saving as base64. All in codes, feel happy.
+

@@ -374,8 +374,8 @@ function spawnBoss(level) {
         y: 50,
         width: 150,
         height: 150,
-        maxHealth: 50 + (level - 1) * 10,  // Base health increases with level
-        health: 50 + (level - 1) * 10, // The current health starts at the max value
+        maxHealth: 50 + (currentLevel - 1) * 10,  // Base health increases with level
+        health: 50 + (currentLevel - 1) * 10, // The current health starts at the max value
         speed: 1,// Increase speed slightly each level
     };
     bossActive = true;
@@ -683,8 +683,9 @@ function advanceLevel() {
         initializeGame(true); // Reset level with player and boss position reset
         spawnBoss(currentLevel); // Spawn a new boss for the next level
     } else {
-        gameState = 'gameOver';
         initializeGame(); // Reset the game
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        gameState = 'gameOver';
         drawScreen([{ text: 'You Win!' }, { text: 'Thanks for Playing!' }, { text: 'Press Enter to Restart' }]);
     }
 }

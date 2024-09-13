@@ -74,7 +74,7 @@ canvas {
     width: 100vw;
     max-width: 800px;
     height: auto;
-    border: 10px solid rgb(5, 5, 5);
+    border: 10px solid rgb(97, 96, 96);
     background-color: #2e2e2e;
     z-index: 1; /* Keep the game above the rain */
 }
@@ -97,7 +97,7 @@ canvas {
 
 #gameTitle {
     position: absolute;
-    top: -15%;
+    top: -10%;
     left: 0;
     width: 100%;
     text-align: center;

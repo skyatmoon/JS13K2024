@@ -110,8 +110,8 @@ var score = 0;
 const player = {
     x: canvas.width / 2 - 25,
     y: canvas.height - 60,
-    width: 20,
-    height: 20,
+    width: 50,
+    height: 50,
     speed: 5,
     slowSpeed: 2,
     bullets: [],
@@ -139,13 +139,68 @@ function createExplosion(x, y, size, maxSize) {
         opacity: 1.0
     });
 }
+const palette = '1c130af0ebea9391900f1945376ed65d8f24eda20ceb6320';
+
+const icons = {
+  "boss132": "H@@@@AHIIIIA@IJRJ@@QJIJ@@IJRJ@@IJIJ@@IJRJ@@IIII@H@II@A@IIII@@@II@@@@HA@@",
+  "boss122": "H@@@@AHIIIIA@IJRJ@@QJIJ@@IJQI@@IJJI@@IJRJ@@IIII@H@II@A@IIII@@@II@@@@HA@@",
+  "boss112": "H@@@@AHIIIIA@IJIJ@@QJQJ@@IJIJ@@IJIJ@@IJIJ@@IIII@H@II@A@IIII@@@II@@@@HA@@",
+  "boss102": "H@@@@AHIIIIA@IJQI@@QJJJ@@IJJJ@@IJJJ@@IJQI@@IIII@H@II@A@IIII@@@II@@@@HA@@",
+  "boss92": "H@@@@AHIIIIA@IIRJ@@IJJJ@@IIRJ@@IIIJ@@IIIJ@@IIII@H@II@A@IIII@@@II@@@@HA@@",
+    "boss82": "H@@@@AHIIIIA@IIRJ@@IJJJ@@IIRJ@@IIJJ@@IIRJ@@IIII@H@II@A@IIII@@@II@@@@HA@@",
+    "boss72": "H@@@@AHIIIIA@IIRJ@@IJIJ@@IIIJ@@IIIJ@@IIIJ@@IIII@H@II@A@IIII@@@II@@@@HA@@",
+    "boss62": "H@@@@AHIIIIA@IIRJ@@IJJI@@IIRJ@@IIJJ@@IIRJ@@IIII@H@II@A@IIII@@@II@@@@HA@@",
+    "boss52": "H@@@@AHIIIIA@IIRJ@@IJJI@@IIRJ@@IIIJ@@IIRJ@@IIII@H@II@A@IIII@@@II@@@@HA@@",
+    "boss42": "H@@@@AHIIIIA@IIJJ@@IJJJ@@IIRJ@@IIIJ@@IIIJ@@IIII@H@II@A@IIII@@@II@@@@HA@@",
+    "boss32": "H@@@@AHIIIIA@IIRJ@@IJIJ@@IIRJ@@IIIJ@@IIRJ@@IIII@H@II@A@IIII@@@II@@@@HA@@",
+    "boss22": "H@@@@AHIIIIA@IIRJ@@IJIJ@@IIRJ@@IIJI@@IIRJ@@IIII@H@II@A@IIII@@@II@@@@HA@@",
+    "boss12": "H@@@@AHIIIIA@IIIJ@@IJQJ@@IIIJ@@IIIJ@@IIIJ@@IIII@H@II@A@IIII@@@II@@@@HA@@",
+    "boss131": "H@@@@AHIIIIA@IJRJ@@QJIJ@@IJRJ@@IJIJ@@IJRJ@@IIII@@@II@@@HIIA@@AIIH@@@HA@@",
+    "boss121": "H@@@@AHIIIIA@IJRJ@@QJIJ@@IJRJ@@IJJI@@IJRJ@@IIII@@@II@@@HIIA@@AIIH@@@HA@@",
+    "boss111": "H@@@@AHIIIIA@IJIJ@@QJQJ@@IJIJ@@IJIJ@@IJIJ@@IIII@@@II@@@HIIA@@AIIH@@@HA@@",
+    "boss101": "H@@@@AHIIIIA@IJRJ@@QJJJ@@IJJJ@@IJJJ@@IJRJ@@IIII@@@II@@@HIIA@@AIIH@@@HA@@",
+    "boss91": "H@@@@AHIIIIA@IIRJ@@IJJJ@@IIRJ@@IIIJ@@IIIJ@@IIII@@@II@@@HIIA@@AIIH@@@HA@@",
+    "boss81": "H@@@@AHIIIIA@IIRJ@@IJJJ@@IIRJ@@IIJJ@@IIRJ@@IIII@@@II@@@HIIA@@AIIH@@@HA@@",
+    "boss71": "H@@@@AHIIIIA@IIRJ@@IJIJ@@IIIJ@@IIIJ@@IIIJ@@IIII@@@II@@@HIIA@@AIIH@@@HA@@",
+    "boss61": "H@@@@AHIIIIA@IIRJ@@IJJI@@IIRJ@@IIJJ@@IIRJ@@IIII@@@II@@@HIIA@@AIIH@@@HA@@",
+    "boss51": "H@@@@AHIIIIA@IIRJ@@IJJI@@IIRJ@@IIIJ@@IIRJ@@IIII@@@II@@@HIIA@@AIIH@@@HA@@",
+    "boss41": "H@@@@AHIIIIA@IIJJ@@IJJJ@@IIRJ@@IIIJ@@IIIJ@@IIII@@@II@@@HIIA@@AIIH@@@HA@@",
+    "boss31": "H@@@@AHIIIIA@IIRJ@@IJIJ@@IIRJ@@IIIJ@@IIRJ@@IIII@@@II@@@HIIA@@AIIH@@@HA@@",
+    "boss21": "H@@@@AHIIIIA@IIRJ@@IJIJ@@IIRJ@@IIJI@@IIRJ@@IIII@@@II@@@HIIA@@AIIH@@@HA@@",
+    "boss11": "H@@@@AHIIIIA@IIIJ@@IJQJ@@IIIJ@@IIIJ@@IIIJ@@IIII@@@II@@@HIIA@@AIIH@@@HA@@",
+    "player1": "@`hED@`Dmm`D`hmmEDDmmmm`DPQJB`DPRRB`Dj}oU`DPmmB`DhmmE``@BP@D`DBP`D@`AHD@",
+    "player2": "@PhEB@PBmmPBPhmmEBBmmmmPBPQJBPRPRRBRBj}oUPB@mm@PBhmmEPP@BP@BPBBPPB@PAHB@",
+};
+
+const drawIcon = (ctx, icon, x, y, scale, flash) => {
+  const imageData = [];
+
+  [...icon].map(c => {
+    const z = c.charCodeAt(0);
+    imageData.push(z & 7); // Low 3 bits
+    imageData.push((z >> 3) & 7); // High 3 bits
+  });
+
+  const size = Math.sqrt(icon.length * 2); // Size of the icon grid
+//   const scale = 10; // Scale factor to make the image 10 times bigger
+
+  for (let j = 0; j < size; j++) {
+    for (let i = 0; i < size; i++) {
+      if (imageData[j * size + i]) {
+        const index = 6 * (imageData[j * size + i] - 1);
+        if (flash){ctx.fillStyle = 'lightgray';}
+        else {ctx.fillStyle = '#' + palette.substring(index, index + 6);}
+        // Draw each pixel as a 10x10 block instead of 1x1
+        ctx.fillRect(x + i * scale, y + j * scale, scale, scale);
+      }
+    }
+  }
+};
 
 // Boss variables
 let bossActive = false;
 let boss = null;
 const enemyBullets = [];
-
-
 
 // Function to draw the player
 function drawPlayer() {
@@ -154,8 +209,12 @@ function drawPlayer() {
     } else {
         ctx.globalAlpha = 1; // Full opacity when not in godtime
     }
-    ctx.fillStyle = 'white';
-    ctx.fillRect(player.x, player.y, player.width, player.height);
+    // ctx.fillStyle = 'white';
+    // ctx.fillRect(player.x, player.y, player.width, player.height);
+    if (frame % 60 < 30) {
+        drawIcon(ctx, icons[`player1`], player.x, player.y, player.width / 12, false);}
+    else {
+        drawIcon(ctx, icons[`player2`], player.x, player.y, player.width / 12, false);}
 
     if (player.isSlow) {
         ctx.fillStyle = 'red';
@@ -288,11 +347,13 @@ function drawBoss() {
             if (bossHitTimer <= 0) {
                 bossHitFlash = false; // Stop flashing after some time
             }
-        } else {
-            ctx.fillStyle = 'black'; // Default boss color
         }
-
-        ctx.fillRect(boss.x, boss.y, boss.width, boss.height);
+        // ctx.fillRect(boss.x, boss.y, boss.width, boss.height);
+        if (frame % 60 < 30) {
+        drawIcon(ctx, icons[`boss${currentLevel}1`], boss.x, boss.y, boss.width / 12, bossHitFlash);}
+        else {
+        drawIcon(ctx, icons[`boss${currentLevel}2`], boss.x, boss.y, boss.width / 12, bossHitFlash);}
+    
         boss.x += boss.speed;
 
         if (boss.x <= 0 || boss.x + boss.width >= canvas.width) {
